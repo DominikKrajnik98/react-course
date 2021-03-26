@@ -11,7 +11,6 @@ const Logo = styled.h2`
 
 const Inner = styled(Content)`
   min-height: 280px;
-  padding: 24px;
   background: #fff;
 `
 
