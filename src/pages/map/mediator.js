@@ -1,4 +1,5 @@
 import WikipediaApi from '../../services/wikipedia'
+import {useMapStore} from './store'
 const listeners = {}
 
 export function emit(event, ...args) {
@@ -11,6 +12,9 @@ function attachListener(eventName, listener) {
 }
 
 function useMapMediator() {
+
+  const [,{addMarkers}] = useMapStore()
+
   async function mapLoaded({ center }) {
     console.log('useMapMediator Map loaded', center.toJSON())
     const articlesTmp = await WikipediaApi.getArticles({
@@ -19,6 +23,8 @@ function useMapMediator() {
     })
     const articles = articlesTmp.query.geosearch
     console.log(articles)
+    addMarkers(articles)
+
   }
 
   async function mapDragged(center) {
@@ -29,6 +35,8 @@ function useMapMediator() {
     })
     const articles = articlesTmp.query.geosearch
     console.log(articles)
+    addMarkers(articles)
+
   }
 
   attachListener('mapLoaded', mapLoaded)
